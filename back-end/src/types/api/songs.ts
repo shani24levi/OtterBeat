@@ -1,4 +1,4 @@
-export interface Artist {
+export interface Songs {
   artist: string;
   songs: Song[];
 }

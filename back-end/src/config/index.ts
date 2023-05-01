@@ -1,14 +1,17 @@
-// import  from "../global"
+import { ENV, NodeJS } from '../types';
+import dotenv from 'dotenv';
+import path from 'path';
 
-export default {
-  Development: process.env.USER_SERVICE_URL ?? '',
-  EtlUrl: process.env.ETL_SERVICE_URL ?? '',
-};
+// Load env vars
+dotenv.config({ path: path.join(__dirname, '../..', '.env') });
 
-export const getConfig = (): ENV => {
+export const getConfig = () => {
   return {
     NODE_ENV: process.env.NODE_ENV,
     PORT: process.env.PORT,
-    MONGO_URI: process.env.MONGO_URI,
+    DB_HOST: process.env.DB_HOST,
+    DB: process.env.DB,
+    DB_USER: process.env.DB_USER,
+    DB_PASSWORD: process.env.DB_PASSWORD,
   };
 };

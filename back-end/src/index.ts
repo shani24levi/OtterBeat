@@ -1,17 +1,16 @@
 import express, { Application, Request, Response } from 'express';
-import dotenv from 'dotenv';
-import path from 'path';
 import cors from 'cors';
 import 'colorts/lib/string';
 import { errorHandler } from './middlewares/err';
-// import songsRouter from './api/songs/song.route';
+import { dbConnect } from './sql/client.connect';
+import { getConfig } from './config';
 
 const app: Application = express();
 app.use(express.json());
 app.use(cors());
 
-// Load env vars
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
+//connect to db
+dbConnect();
 
 // Route middleware
 app.get('/', (req: Request, res: Response) => {
@@ -24,7 +23,11 @@ app.use('/api/songs', songsRouter);
 app.use(errorHandler);
 
 //create api lister
-const PORT = process.env.PORT || 5000;
+const PORT = getConfig().PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.underline.blue.bold);
+  console.log(`Server running in ${getConfig().NODE_ENV} mode on port ${PORT}`.underline.blue.bold);
+});
+
+process.on('uncaughtException', function (err) {
+  console.log('eeeee', err);
 });
