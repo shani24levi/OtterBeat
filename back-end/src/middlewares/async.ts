@@ -1,7 +1,7 @@
+import { TokenRequest } from './auth';
 import { Request, Response, NextFunction } from 'express';
 
-// export const asyncHandler =
-//   <T extends any[], R>(fn: (...args: [...T]) => Promise<R>) =>
-//   (req: Request, res: Response, next: NextFunction): void => {
-//     Promise.resolve(fn(req, res, next)).catch(next);
-//   };
+type RequestNext = Request | TokenRequest;
+type Middleware = (req: RequestNext, res: Response, next: NextFunction) => any;
+
+export const asyncHandler = (fn: Middleware) => (req: Request, res: Response, next: NextFunction) => Promise.resolve(fn(req, res, next)).catch(next);

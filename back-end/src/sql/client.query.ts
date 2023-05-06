@@ -3,16 +3,12 @@ import { client } from './client';
 import { QueryResult } from 'pg';
 import { ErrorResponse, StatusCode } from '../utils';
 
+type Table = 'users' | 'artist' | 'songs' | 'songslist' | 'likes' | 'favorite';
 interface Query {
-  table: string;
+  table: Table;
   select: string | '*';
   where?: string;
 }
-// const isValidClient =() => {
-//     client ? true : false
-// }
-// const asyncHandler = fn => (select:string, table:string,where:string, next: (...any: [...any])=>any) =>
-//     Promise.resolve(fn(select, table,where, next)).catch(next);
 
 // @desc   select
 const select = async ({ table, select, where }: Query, next: NextFunction): Promise<QueryResult | void> => {
