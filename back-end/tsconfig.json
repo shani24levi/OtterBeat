@@ -11,8 +11,11 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "typeRoots": ["./global.d.ts", "./node_modules/@types"]
+    "typeRoots": ["@types", "./node_modules/@types", "./global.d.ts"]
+
+    // "typeRoots": ["./global.d.ts", "./node_modules/@types"]
   },
   "include": ["./src/**/*", "./src/utils/**/*"],
   "lib": ["es2015"]
+  // "files": ["custom.d.ts"]
 }

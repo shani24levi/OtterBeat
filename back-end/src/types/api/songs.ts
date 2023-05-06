@@ -10,4 +10,5 @@ export interface Song {
   releaseYear: string;
   url: string;
   icon?: string;
+  likes: [string]; //array of users id`s
 }

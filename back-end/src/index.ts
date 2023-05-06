@@ -1,13 +1,21 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import 'colorts/lib/string';
+import passport from 'passport';
 import { errorHandler } from './middlewares/err';
 import { dbConnect } from './sql/client.connect';
 import { getConfig } from './config';
 
+const songsRouter = require('./api/songs/song.route');
+const authRouter = require('./api/auth/auth.router');
+const userRouter = require('./api/user/user.route');
+const likesRouter = require('./api/likes/likes.router');
+require('./strategies/google');
+
 const app: Application = express();
 app.use(express.json());
 app.use(cors());
+app.use(passport.initialize());
 
 //connect to db
 dbConnect();
@@ -16,8 +24,10 @@ dbConnect();
 app.get('/', (req: Request, res: Response) => {
   res.send('Server is up and running');
 });
-const songsRouter = require('./api/songs/song.route');
 app.use('/api/songs', songsRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+app.use('/api/likes', likesRouter);
 
 //middleware for catch 500-400 errors
 app.use(errorHandler);
