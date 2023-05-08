@@ -3,18 +3,23 @@ import { songsArr } from '../../constants';
 import { successResponse, errorResponse, StatusCode, ErrorResponse } from '../../utils';
 import { asyncHandler } from '../../middlewares/async';
 import { client } from '../../sql/client';
+import cache from 'memory-cache';
+import { RedisConnector } from '../../utils/redis/redisConnector';
 
 // @desc    Get all songs
 // @route   GET /api/songs
 // @access  Public
 const getSongs = asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
-  client.query(
-    `select a.artistid,s.songid, a.artist,s.title, s.duration, s.releaseYear from songslist sl join songs s on s.songid =sl.songid join artist a on a.artistid =sl.artistid`,
-    (err, resSQL) => {
-      if (!resSQL || err) return next(new ErrorResponse(err.message, StatusCode.Error.NotFound));
-      if (resSQL) return successResponse(req, res, { songs: resSQL.rows }, StatusCode.Success.Created);
-    },
-  );
+  const query =
+    'select a.artistid,s.songid, a.artist,s.title, s.duration, s.releaseYear from songslist sl join songs s on s.songid =sl.songid join artist a on a.artistid =sl.artistid';
+  const result = await client.query(query);
+  const data = result.rows;
+  //set in cache for 1 min
+  const key = '__express__' + req.originalUrl || req.url;
+  let cache = await RedisConnector();
+  await cache.setEx(key, 60000, JSON.stringify(data));
+
+  return successResponse(req, res, data, StatusCode.Success.OK);
 });
 
 // @desc    Get all songs OF artist

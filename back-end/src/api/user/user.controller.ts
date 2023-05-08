@@ -3,9 +3,10 @@ import { successResponse, errorResponse, StatusCode, ErrorResponse, isError, isE
 import { client } from '../../sql/client';
 import { asyncHandler } from '../../middlewares/async';
 import { TokenData, TokenRequest } from './../../middlewares/auth';
-import User from './user.module';
-import { QueryResult } from 'pg';
 import { TypedRequestBody } from '../../types';
+import cache from 'memory-cache';
+import User from './user.module';
+import { RedisConnector } from '../../utils/redis/redisConnector';
 const user = new User();
 
 // @desc    Get logged user
@@ -23,14 +24,36 @@ const getLoggedUser = asyncHandler(async (req: Request, res: Response, next: Nex
 // @route   GET /api/user/favorites
 // @access  Privet
 const getFavoritesSongs = asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  client.query(
-    `select u.userid,s.songid,u.email , u.is_premium ,s.title, s.duration, s.releaseYear from favorite f join songs s on s.songid =f.songid join users u on u.userid =f.userid where u.userid='${req.userid}'`,
-    (err, resSQL) => {
-      if (!resSQL || err) return next(new ErrorResponse(err.message, StatusCode.Error.NotFound));
-      if (resSQL) return successResponse(req, res, { user: resSQL.rows }, StatusCode.Success.OK);
-      //   else if (!resSQL.rowCount) return next(new ErrorResponse(`No Items In The Favorite Table`, StatusCode.Error.BadRequest));
-    },
-  );
+  const query = `select u.userid,s.songid,u.email , u.is_premium ,s.title, s.duration, s.releaseYear from favorite f join songs s on s.songid =f.songid join users u on u.userid =f.userid where u.userid='${req.userid}'`;
+  const result = await client.query(query);
+  const data = result.rows;
+  //set in cache for 1 min
+  const key = '__express__' + req.originalUrl || req.url;
+  let cache = await RedisConnector();
+  // await cache.setEx(key, 60000, JSON.stringify(data));
+  // await cache.set(key, JSON.stringify(data), { EX: 60000 });
+  // cache.expire(key, 60000);
+  cache.set(key, JSON.stringify(data), 'PX', 60 * 1000, () => console.log('hi'));
+
+  cache.set('mykey', 'myvalue', 'EX', 60, (err: any, reply: any) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(reply);
+    }
+  });
+
+  successResponse(req, res, data, StatusCode.Success.OK);
+  return;
+
+  //     client.query(
+  //     `select u.userid,s.songid,u.email , u.is_premium ,s.title, s.duration, s.releaseYear from favorite f join songs s on s.songid =f.songid join users u on u.userid =f.userid where u.userid='${req.userid}'`,
+  //     (err, resSQL) => {
+  //       if (!resSQL || err) return next(new ErrorResponse(err.message, StatusCode.Error.NotFound));
+  //       if (resSQL) return successResponse(req, res, { user: resSQL.rows }, StatusCode.Success.OK);
+  //       //   else if (!resSQL.rowCount) return next(new ErrorResponse(`No Items In The Favorite Table`, StatusCode.Error.BadRequest));
+  //     },
+  //   );
 });
 
 // @desc    create/add song to favorite

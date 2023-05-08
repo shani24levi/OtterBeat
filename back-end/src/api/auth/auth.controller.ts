@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { successResponse, StatusCode, ErrorResponse } from '../../utils';
+import { successResponse, StatusCode, ErrorResponse, isEmpty } from '../../utils';
 import { asyncHandler } from '../../middlewares/async';
 import { client } from '../../sql/client';
 import * as bcrypt from 'bcrypt';
@@ -11,19 +11,18 @@ import { createToken } from '../../utils';
 // @route   POST /api/auth/login
 // @access  Public
 const login = asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
-  if (!req.body.email || !req.body.password) return next(new ErrorResponse(`email\password is missing`, StatusCode.Error.Unauthorized));
+  if (!req.body.email || !req.body.password) return next(new ErrorResponse(`email\\password is missing`, StatusCode.Error.Unauthorized));
   const token = null;
   //find user
   client.query(`SELECT * FROM users WHERE email='${req.body.email}'`, async (err, resSQL) => {
-    if (!resSQL || err) return next(new ErrorResponse('email is not exist', StatusCode.Error.NotFound));
+    if (!resSQL || isEmpty(resSQL.rows) || err) return next(new ErrorResponse('email is not exist', StatusCode.Error.NotFound));
     else {
-      console.log(resSQL);
       let validPass = await bcrypt.compare(req.body.password, resSQL.rows[0].password);
       if (validPass) {
         //create token
         let token = createToken(resSQL.rows[0].userid, resSQL.rows[0].email, resSQL.rows[0].img, resSQL.rows[0].is_premium);
         return successResponse(req, res, { token }, StatusCode.Success.OK);
-      }
+      } else return next(new ErrorResponse('password dont match', StatusCode.Error.BadRequest));
     }
   });
 });
@@ -34,6 +33,8 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
 const signing = asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
   //Defines the level of encryption
   console.log('req.body', req.body);
+  if (!req.body.email || !req.body.password) return next(new ErrorResponse(`email\\password is missing`, StatusCode.Error.Unauthorized));
+  if (req.body.password.length > 4) return next(new ErrorResponse(`password must be 4 digits long`, StatusCode.Error.BadRequest));
 
   let salt = await bcrypt.genSalt(Number(getConfig().SALT_KEY));
   req.body.password = await bcrypt.hash(req.body.password, salt);
