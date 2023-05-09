@@ -10,6 +10,11 @@ export const errorHandler = (err: ErrorResponse, req: Request, res: Response, ne
   let error = { ...err };
   error.message = err.message;
 
+  if (err.message.includes('violates foreign key constraint')) {
+    const castumErr = `The id selected is not in the db`;
+    error = new ErrorResponse(castumErr, StatusCode.Error.BadRequest);
+  }
+
   if (err.message.includes('duplicate')) {
     const castumErr = `Already exists`;
     error = new ErrorResponse(castumErr, StatusCode.Error.BadRequest);

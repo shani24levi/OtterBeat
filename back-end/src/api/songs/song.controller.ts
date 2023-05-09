@@ -17,7 +17,7 @@ const getSongs = asyncHandler(async (req: Request, res: Response, next: NextFunc
   //set in cache for 1 min
   const key = '__express__' + req.originalUrl || req.url;
   let cache = await RedisConnector();
-  await cache.setEx(key, 60000, JSON.stringify(data));
+  await cache.set(key, JSON.stringify(data), { EX: 60 });
 
   return successResponse(req, res, data, StatusCode.Success.OK);
 });

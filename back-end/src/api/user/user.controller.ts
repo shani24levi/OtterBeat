@@ -13,7 +13,6 @@ const user = new User();
 // @route   GET /api/user
 // @access  Privet
 const getLoggedUser = asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  //   let logged = user.findById(req.userid!);
   client.query(`select * from users where userid='${req.userid!}'`, (err, resSQL) => {
     if (!resSQL || err) return next(new ErrorResponse(err.message, StatusCode.Error.NotFound));
     if (resSQL) return successResponse(req, res, { user: resSQL.rows }, StatusCode.Success.Created);
@@ -30,30 +29,10 @@ const getFavoritesSongs = asyncHandler(async (req: Request, res: Response, next:
   //set in cache for 1 min
   const key = '__express__' + req.originalUrl || req.url;
   let cache = await RedisConnector();
-  // await cache.setEx(key, 60000, JSON.stringify(data));
-  // await cache.set(key, JSON.stringify(data), { EX: 60000 });
-  // cache.expire(key, 60000);
-  cache.set(key, JSON.stringify(data), 'PX', 60 * 1000, () => console.log('hi'));
-
-  cache.set('mykey', 'myvalue', 'EX', 60, (err: any, reply: any) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(reply);
-    }
-  });
+  await cache.set(key, JSON.stringify(data), { EX: 60 });
 
   successResponse(req, res, data, StatusCode.Success.OK);
   return;
-
-  //     client.query(
-  //     `select u.userid,s.songid,u.email , u.is_premium ,s.title, s.duration, s.releaseYear from favorite f join songs s on s.songid =f.songid join users u on u.userid =f.userid where u.userid='${req.userid}'`,
-  //     (err, resSQL) => {
-  //       if (!resSQL || err) return next(new ErrorResponse(err.message, StatusCode.Error.NotFound));
-  //       if (resSQL) return successResponse(req, res, { user: resSQL.rows }, StatusCode.Success.OK);
-  //       //   else if (!resSQL.rowCount) return next(new ErrorResponse(`No Items In The Favorite Table`, StatusCode.Error.BadRequest));
-  //     },
-  //   );
 });
 
 // @desc    create/add song to favorite
