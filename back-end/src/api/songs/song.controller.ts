@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { songsArr } from '../../constants';
-import { successResponse, errorResponse, StatusCode, ErrorResponse } from '../../utils';
+import { successResponse, StatusCode, ErrorResponse } from '../../utils';
 import { asyncHandler } from '../../middlewares/async';
 import { client } from '../../sql/client';
-import cache from 'memory-cache';
 import { RedisConnector } from '../../utils/redis/redisConnector';
 
 // @desc    Get all songs

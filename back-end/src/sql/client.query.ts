@@ -4,6 +4,7 @@ import { QueryResult } from 'pg';
 import { ErrorResponse, StatusCode } from '../utils';
 
 type Table = 'users' | 'artist' | 'songs' | 'songslist' | 'likes' | 'favorite';
+
 interface Query {
   table: Table;
   select: string | '*';

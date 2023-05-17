@@ -21,7 +21,7 @@ app.use(passport.initialize());
 dbConnect();
 
 // Route middleware
-app.get('/', (req: Request, res: Response) => {
+app.get('/test', (req: Request, res: Response) => {
   res.send('Server is up and running');
 });
 app.use('/api/songs', songsRouter);

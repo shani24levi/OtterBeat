@@ -31,11 +31,18 @@ A web-based platform, built as a mobile and desktop website
 -   [x] React Hooks
 -   [x] Vite
 -   [x] Written in TypeScript ♥
--   [x] TailwindCSS 
+-   [x] MUI
 -   [x] Using Eslint & Prettier for text edittor.
 
 **Server:**
 -   [x] Node - TypeScript
 -   [x] Express
+-   [x] PostgreSQL
+-   [x] Redis caching server
+-   [x] Unit tests
+-   [x] Docker
+
+
+
 
 

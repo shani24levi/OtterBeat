@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { successResponse, StatusCode, ErrorResponse, isEmpty } from '../../utils';
+import { successResponse, StatusCode, ErrorResponse, isEmpty, createToken } from '../../utils';
 import { asyncHandler } from '../../middlewares/async';
 import { client } from '../../sql/client';
+import { getConfig } from '../../config';
 import * as bcrypt from 'bcrypt';
 import * as gravatar from 'gravatar';
-import { getConfig } from '../../config';
-import { createToken } from '../../utils';
 
 // @desc    User login
 // @route   POST /api/auth/login
@@ -32,6 +31,7 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
 // @access  Public
 const signing = asyncHandler(async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
   //Defines the level of encryption
+  const { body } = req;
   console.log('req.body', req.body);
   if (!req.body.email || !req.body.password) return next(new ErrorResponse(`email\\password is missing`, StatusCode.Error.Unauthorized));
   if (req.body.password.length > 4) return next(new ErrorResponse(`password must be 4 digits long`, StatusCode.Error.BadRequest));
@@ -46,10 +46,13 @@ const signing = asyncHandler(async (req: Request, res: Response, next: NextFunct
   });
   req.body.img = img;
 
-  client.query(`INSERT INTO Users (email, password,img) VALUES ('${req.body.email}', '${req.body.password}', '${req.body.img}')`, (err, resSQL) => {
-    if (!resSQL || err) return next(new ErrorResponse(err.message, StatusCode.Error.NotFound));
-    if (resSQL) return successResponse(req, res, { user: { resSQL } }, StatusCode.Success.Created);
-  });
+  client.query(
+    `INSERT INTO Users (email, password,img) VALUES ('${req.body.email}', '${req.body.password}', '${req.body.img}') RETURNING *`,
+    (err, resSQL) => {
+      if (!resSQL || err) return next(new ErrorResponse(err.message, StatusCode.Error.NotFound));
+      if (resSQL) return successResponse(req, res, { user: { resSQL } }, StatusCode.Success.Created);
+    },
+  );
 });
 
 // @desc    User logout
