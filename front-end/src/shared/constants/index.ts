@@ -38,12 +38,12 @@ export const navLinksLogged: NavLinks[] = [
   {
     id: 'favorites',
     title: 'Favorites',
-    path: '/albums',
+    path: '/favorites',
   },
   {
     id: 'likes',
     title: 'Likes',
-    path: '/albums',
+    path: '/likes',
   },
 ];
 

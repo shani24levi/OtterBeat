@@ -1,41 +1,57 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, PaletteMode, createTheme, useTheme } from '@mui/material';
+import React, { Suspense, lazy } from 'react';
 import {
-  getStoredTheme,
-  getThemeOptions,
-  setStoredTheme,
-} from './shared/theme/theme';
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route,
+  useNavigate,
+} from 'react-router-dom';
 
-import { Navbar } from './components';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from './shared/ErrorFallback ';
+import SkeletonAdmin from './shared/skeletons/SkeletonAdmin';
+
+// pages
+import { Albums, Home, RootLayout, PrivetRootLayout } from './pages';
+
+const Favorites = lazy(() => import('./pages/Favorites'));
 
 const App: React.FC = (): JSX.Element => {
-  const [mode, setMode] = useState<PaletteMode>('dark'); // default is dark mode
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedTheme = getStoredTheme();
-    if (storedTheme) {
-      setMode(storedTheme);
-    }
-  }, []);
+  //react-router-dom version 6
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<RootLayout />}>
+        <Route index element={<Home />} />
+        <Route path="/albums" element={<Albums />} />
+        {/* <Route path="/favorites" lazy={() => import("./pages/Favorites")} /> */}
+        <Route path="/favorites" element={<Favorites />} />
 
-  // Update the theme only if it changes
-  const theme = useMemo(() => createTheme(getThemeOptions(mode)), [mode]);
-  const customTheme = useTheme(); // for use in other components - could potentially use theme
+        <Route
+          path="admin"
+          element={
+            <ErrorBoundary
+              FallbackComponent={ErrorFallback}
+              onReset={() => console.log('navigat')} //navigate('/')}
+            >
+              <Suspense fallback={<SkeletonAdmin />}>
+                <Favorites />
+              </Suspense>
+            </ErrorBoundary>
+          }
+        />
 
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Navbar
-        mode={mode}
-        onChange={() => {
-          const newMode: PaletteMode = mode === 'dark' ? 'light' : 'dark';
-          setMode(newMode);
-          setStoredTheme(newMode);
-        }}
-      />
-    </ThemeProvider>
+        {/* <Route path="/favorites" element={<PrivetRootLayout />}>
+        <Route path="/favorites" element={<Favorites />} />
+      </Route> */}
+
+        <Route path="/*" element={<>Not Found 404!</>} />
+      </Route>
+    )
   );
+
+  return <RouterProvider router={router} />;
 };
 
 export default App;

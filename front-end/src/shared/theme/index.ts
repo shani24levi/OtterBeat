@@ -1,3 +1,4 @@
-// import theme from './theme';
+import { ButtonLinearPurple } from './buttons';
+import { getStoredTheme, setStoredTheme } from './theme';
 
-// export { theme };
+export { getStoredTheme, setStoredTheme, ButtonLinearPurple };

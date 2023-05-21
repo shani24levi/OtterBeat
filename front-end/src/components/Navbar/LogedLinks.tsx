@@ -6,7 +6,21 @@ const LoggedLinks: React.FC = () => {
   return (
     <>
       {navLinksLogged.map((el) => (
-        <Link href={el.path} variant="button" />
+        <Link
+          key={el.id}
+          href={el.path}
+          variant="button"
+          underline="none"
+          color="inherit"
+          sx={{
+            margin: '1rem',
+            '&:hover': {
+              opacity: [0.9, 0.8, 0.7],
+            },
+          }}
+        >
+          {el.title}
+        </Link>
       ))}
     </>
   );

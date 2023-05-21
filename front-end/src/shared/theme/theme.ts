@@ -3,11 +3,10 @@ import { ThemeOptions } from '@mui/material/styles';
 import type {} from '@mui/lab/themeAugmentation';
 
 const primaryPalette = {
-  main: '#09D3AD',
-  light: '#3ADBBD',
-  dark: '#212529',
+  main: '#795778',
+  light: '#3c2b3c',
+  dark: '#cb92c8',
   contrastText: '#FFFFFF',
-  //chacked: '#262037'
 };
 
 const secondaryPalette = {
@@ -46,17 +45,17 @@ const successPalette = {
 };
 
 const overrides = {
-  MuiButtonBase: {
-    defaultProps: {
-      disableRipple: true,
-    },
-    styleOverrides: {
-      root: {
-        boxShadow: 'none',
-        color: '#9C27B0 !important',
-      },
-    },
-  },
+  // MuiButtonBase: {
+  //   defaultProps: {
+  //     disableRipple: true,
+  //   },
+  //   styleOverrides: {
+  //     root: {
+  //       boxShadow: 'none',
+  //       color: '#9C27B0 !important',
+  //     },
+  //   },
+  // },
   MuiAppBar: {
     styleOverrides: {
       root: {
@@ -71,13 +70,13 @@ const overrides = {
       },
     },
   },
-  MuiSwitch: {
-    styleOverrides: {
-      track: {
-        backgroundColor: '#faebd7',
-      },
-    },
-  },
+  // MuiSwitch: {
+  //   styleOverrides: {
+  //     track: {
+  //       backgroundColor: '#faebd7',
+  //     },
+  //   },
+  // },
   // MuiButtonBase: {
   //   styleOverrides: {
   //     root: {
@@ -91,10 +90,17 @@ const typography = {
   h6: {
     fontWeight: 700,
     flexGrow: 1,
+    // color: 'inherit',
   },
   h5: {
     fontWeight: 700,
     flexGrow: 1,
+  },
+  h1: {
+    fontWeight: 700,
+  },
+  body1: {
+    fontWeight: 700,
   },
 };
 
@@ -147,8 +153,8 @@ export const getThemeOptions = (mode: PaletteMode): ThemeOptions => {
   return lightThemeOptions;
 };
 
-export const getStoredTheme = (): PaletteMode | null => {
-  return localStorage.getItem('user-theme') as PaletteMode | null;
+export const getStoredTheme = (): PaletteMode => {
+  return localStorage.getItem('user-theme') as PaletteMode;
 };
 
 export const setStoredTheme = (mode: PaletteMode): void => {

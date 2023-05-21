@@ -6,5 +6,6 @@ import mobile from './imgs/mobile.png';
 import web from './imgs/web.png';
 import close from './imgs/close.svg';
 import menu from './imgs/menu.svg';
+import musicbg from './imgs/musicbg.svg';
 
-export { logo, backend, creator, herobg, mobile, web, close, menu };
+export { logo, backend, creator, herobg, mobile, web, close, menu, musicbg };
