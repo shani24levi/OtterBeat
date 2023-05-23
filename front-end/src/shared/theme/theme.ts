@@ -45,17 +45,14 @@ const successPalette = {
 };
 
 const overrides = {
-  // MuiButtonBase: {
-  //   defaultProps: {
-  //     disableRipple: true,
-  //   },
-  //   styleOverrides: {
-  //     root: {
-  //       boxShadow: 'none',
-  //       color: '#9C27B0 !important',
-  //     },
-  //   },
-  // },
+  MuiCssBaseline: {
+    styleOverrides: {
+      root: {
+        backgroundImage:
+          'linear-gradient(rgba(128,0,128, 0.5), rgba(0,0,255, 0.5))',
+      },
+    },
+  },
   MuiAppBar: {
     styleOverrides: {
       root: {

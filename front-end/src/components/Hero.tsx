@@ -15,7 +15,7 @@ import { CustomButton } from '../shared/theme/buttons';
 const mode: PaletteMode = getStoredTheme();
 
 const StyledHeroContinuer = styled(Grid)<GridProps>(({ theme }) => ({
-  backgroundImage: `linear-gradient(rgba(128,0,128, 0.5), rgba(0,0,255, 0.5)), url(${herobg})`,
+  backgroundImage: `url(${herobg}),linear-gradient(rgba(128,0,128, 0.5), rgba(0,0,255, 0.5))`,
   opacity: '0.5',
   width: '100%',
   height: '100vh',
