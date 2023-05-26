@@ -12,6 +12,7 @@ import {
 import herobg from '../assets/imgs/herobg.png';
 import { getStoredTheme } from '../shared/theme';
 import { CustomButton } from '../shared/theme/buttons';
+import { useAppSelector } from '../hooks/useTypedSelector';
 const mode: PaletteMode = getStoredTheme();
 
 const StyledHeroContinuer = styled(Grid)<GridProps>(({ theme }) => ({
@@ -41,10 +42,16 @@ const GradientText = styled(Typography)<TypographyProps>(({ theme }) => ({
 }));
 
 const Hero: React.FC = () => {
+  const { userid, email } = useAppSelector((state) => state.user.user);
   return (
     <StyledHeroContinuer container>
       <Container maxWidth="xl">
         <Box textAlign="center">
+          {userid && (
+            <Typography variant="h5" component="h5" color="primary">
+              Hello {email}
+            </Typography>
+          )}
           <GradientText variant="h1">PARTY NIGHT</GradientText>
           <Typography variant="h5" component="h5" color="secondary">
             Crazy Non-Stop Music Reload

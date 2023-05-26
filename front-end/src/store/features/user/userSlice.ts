@@ -1,45 +1,58 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import jwt_decode from 'jwt-decode';
+import { UserResponse, UserState } from '../../../types/models/userModel';
+import { login } from './userAsyncThunk';
+import { decodedToken, getStoredToken } from '../../../utils';
+import { isValidToken, ResponseToken } from '../../../utils/AuthToken';
 
-export interface UserState {
-  userid: number;
-  email: string;
-  img: string;
-  exp: number;
-  iat: number;
-  is_premium: boolean;
+export interface User {
+  user: UserState;
+  loading: boolean;
+  error: string | null;
 }
 
-const user = localStorage.getItem('user');
-const decodedUser: UserState | null | '' = user && jwt_decode(user!);
+const token = getStoredToken();
+const decodedUser: UserState | boolean | '' =
+  token && isValidToken(token) && decodedToken(token!);
 
-const initialState: UserState = decodedUser
-  ? {
-      userid: decodedUser.userid,
-      email: decodedUser.email,
-      img: decodedUser.img,
-      exp: decodedUser.exp,
-      iat: decodedUser.iat,
-      is_premium: decodedUser.is_premium,
-    }
-  : ({} as UserState);
+const initialState: User = {
+  user: decodedUser
+    ? {
+        userid: decodedUser.userid,
+        email: decodedUser.email,
+        img: decodedUser.img,
+        exp: decodedUser.exp,
+        iat: decodedUser.iat,
+        is_premium: decodedUser.is_premium,
+      }
+    : ({} as UserState),
+  loading: false,
+  error: null,
+} as User;
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    increment: (state) => {
-      state.userid += 1;
-    },
-    decrement: (state) => {
-      state.userid -= 1;
-    },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.userid += action.payload;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.pending, (state, action) => {
+        console.log('pending');
+        state.loading = true;
+      })
+      .addCase(
+        login.fulfilled,
+        (state, action: PayloadAction<UserResponse>) => {
+          state.loading = false;
+          state.user = action.payload.data ?? ({} as UserState);
+          state.error = null;
+        }
+      )
+      .addCase(login.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.error ?? null;
+      });
   },
 });
 
-export const { increment, decrement, incrementByAmount } = userSlice.actions;
 export default userSlice.reducer;

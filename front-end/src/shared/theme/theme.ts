@@ -67,13 +67,13 @@ const overrides = {
       },
     },
   },
-  // MuiSwitch: {
-  //   styleOverrides: {
-  //     track: {
-  //       backgroundColor: '#faebd7',
-  //     },
-  //   },
-  // },
+  MuiSvgIcon: {
+    styleOverrides: {
+      root: {
+        fontSize: '2.5rem',
+      },
+    },
+  },
   // MuiButtonBase: {
   //   styleOverrides: {
   //     root: {
@@ -95,6 +95,7 @@ const typography = {
   },
   h1: {
     fontWeight: 700,
+    fontSize: '3rem',
   },
   body1: {
     fontWeight: 700,

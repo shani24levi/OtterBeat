@@ -1,5 +1,12 @@
-import { Box } from '@mui/system';
-import { Button, PaletteMode, Grid } from '@mui/material';
+import {
+  Button,
+  PaletteMode,
+  TypographyProps,
+  Grid,
+  Box,
+  Typography,
+  Paper,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { getStoredTheme } from '../../shared/theme/theme';
 const mode: PaletteMode = getStoredTheme();
@@ -24,9 +31,17 @@ export const CustomCardButton = styled(Grid)<{
       mode === 'dark'
         ? theme.palette.primary.dark
         : theme.palette.primary.light,
-    //   '&:hover': {
-    //     top: '-1px',
-    //     opacity: 0.85,
-    //   },
+    '&:hover': {
+      top: '-1px',
+      opacity: 0.85,
+    },
   };
 });
+
+export const CardText = styled(Paper)(({ theme }) => ({
+  backgroundColor: 'inherit',
+  ...theme.typography.body1,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));

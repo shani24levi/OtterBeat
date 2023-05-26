@@ -6,7 +6,6 @@ const mode: PaletteMode = getStoredTheme();
 
 export const WaveHeaderWraper = styled(Box)<BoxProps>(({ theme }) => ({
   backgroundImage: `url(${wave})`,
-  // opacity: '0.5',
   width: '100%',
   backgroundPosition: 'right',
   backgroundRepeat: 'no-repeat',

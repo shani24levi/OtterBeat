@@ -12,7 +12,6 @@ const SectionWrapper = (Component: React.ComponentType, idName: string) => {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
-          //   style={{ zIndex: 0, padding: '6x', display: 'block' }}
         >
           <span id={idName}>&nbsp;</span>
           <Component />

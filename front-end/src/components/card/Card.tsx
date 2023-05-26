@@ -1,6 +1,6 @@
 import React from 'react';
 import { Radius, FileColor } from './card.types';
-import { CustomCardButton } from './card.style';
+import { CardText, CustomCardButton } from './card.style';
 
 interface CardProps {
   props: {
@@ -20,11 +20,9 @@ const Card: React.FC<CardProps> = ({
   imgBg,
 }): JSX.Element => {
   return (
-    <>
-      <CustomCardButton radius={radius} key={props.songid} bgcolor={imgBg}>
-        {props.title}
-      </CustomCardButton>
-    </>
+    <CustomCardButton radius={radius} key={props.songid} bgcolor={imgBg}>
+      <CardText>{props.title}</CardText>
+    </CustomCardButton>
   );
 };
 

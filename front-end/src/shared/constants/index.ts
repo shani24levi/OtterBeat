@@ -28,7 +28,7 @@ export const navLinksLogged: NavLinks[] = [
   {
     id: 'dashboard',
     title: 'Home',
-    path: '/dashboard',
+    path: '/',
   },
   {
     id: 'albums',

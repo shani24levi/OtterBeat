@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Outlet } from 'react-router-dom'; //in react router dom version 6
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../store/store';
 import { PaletteMode, createTheme, CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
@@ -15,7 +13,6 @@ import { Navbar } from '../../components';
 
 function RootLayout() {
   const [mode, setMode] = useState<PaletteMode>('dark');
-  //const user = useSelector((state: RootState) => state.user.userid);
 
   useEffect(() => {
     //user logged navigate

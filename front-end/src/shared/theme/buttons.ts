@@ -1,4 +1,4 @@
-import { Button, PaletteMode } from '@mui/material';
+import { Box, Button, PaletteMode } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { getStoredTheme } from '../theme/theme';
 const mode: PaletteMode = getStoredTheme();
@@ -7,6 +7,33 @@ interface CustomButtonProps {
   bgcolor?: string;
   fontcolor: string;
 }
+
+export const IconCircleBox = styled(Box)<{
+  bgcolor?: string;
+  radius?: string;
+  padding?: string;
+}>(
+  ({
+    bgcolor = 'linear-gradient(45deg, #503aca 0%, #ea34ff 100%)',
+    radius = '0%',
+    padding = '12px 15px 7px 15px',
+    theme,
+  }) => {
+    return {
+      backgroundColor: bgcolor,
+      background: bgcolor,
+      borderRadius: radius,
+      backgroundPosition: 'top right',
+      transition: '0.1s',
+      padding: padding,
+      color:
+        mode === 'dark'
+          ? theme.palette.primary.dark
+          : theme.palette.primary.light,
+      margin: '10px 10px',
+    };
+  }
+);
 
 export const CustomButton = styled(Button)<{ bgcolor?: string }>(
   ({ bgcolor = 'linear-gradient(45deg, #503aca 0%, #ea34ff 100%)', theme }) => {
@@ -21,10 +48,6 @@ export const CustomButton = styled(Button)<{ bgcolor?: string }>(
           ? theme.palette.primary.dark
           : theme.palette.primary.light,
       margin: '10px 10px',
-      //   '&:hover': {
-      //     top: '-1px',
-      //     opacity: 0.85,
-      //   },
     };
   }
 );
@@ -33,11 +56,11 @@ export const HollowBtn = styled(Button)<{ bgcolor?: string }>(
   ({ bgcolor = '#ff377b', theme }) => {
     return {
       background: 'transparent',
-      border: '2px solid #ff377b',
-      color:
-        mode === 'dark'
-          ? theme.palette.secondary.dark
-          : theme.palette.secondary.light,
+      border: `2px solid ${bgcolor}`,
+      color: bgcolor,
+      // mode === 'dark'
+      //   ? theme.palette.secondary.dark
+      //   : theme.palette.secondary.light,
       margin: '3px',
       '&:hover': {
         background: bgcolor,

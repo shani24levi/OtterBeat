@@ -7,16 +7,6 @@ export const otterbeatApi = axios.create({
   },
 });
 
-// const setAuthToken = token => {
-//     if (token) {
-//         // Apply to every request
-//         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-//     } else {
-//         //if the token isnt ther so Delete auth header
-//         delete axios.defaults.headers.common['Authorization'];
-//     }
-// };
-
 export const songsUrl = '/api/songs';
 export const userUrl = '/api/user';
 export const authUrl = '/api/auth';

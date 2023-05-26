@@ -1,18 +1,27 @@
-import React, { Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { navLinksPublic } from '../../shared/constants';
 import { Link } from '@mui/material';
 import { HollowBtn } from '../../shared/theme/buttons';
-const LoginPreview = React.lazy(() => import('../auth/Login'));
+import Login from '../auth/Login';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
+import { login } from '../../store/features/user/userAsyncThunk';
+
+interface FormValues {
+  email: string;
+  password: string;
+}
 
 const PublicLinks: React.FC = () => {
-  const loginToggle = React.useCallback(() => {
-    console.log('login');
-    return (
-      <Suspense fallback={<div>loading..</div>}>
-        <LoginPreview />
-      </Suspense>
-    );
-  }, []);
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = async (data: FormValues) => {
+    console.log('Form submitted:', data);
+    if (!data.password || !data.email) {
+      //setError(true)
+      return;
+    }
+    dispatch(login(data));
+  };
 
   return (
     <>
@@ -34,7 +43,7 @@ const PublicLinks: React.FC = () => {
         </Link>
       ))}
       <HollowBtn>SignIn</HollowBtn>
-      <HollowBtn onClick={loginToggle}>Login</HollowBtn>
+      <Login onSubmit={handleSubmit} />
     </>
   );
 };
