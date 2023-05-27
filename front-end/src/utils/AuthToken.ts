@@ -1,4 +1,4 @@
-import { UserResponse, UserState } from '../types/models/userModel';
+import { UserState } from '../types/models/userModel';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 export interface ResponseToken {
@@ -8,7 +8,6 @@ export interface ResponseToken {
 }
 
 export const getStoredToken = (): string => {
-  console.log('access_token', localStorage.getItem('access_token'));
   return localStorage.getItem('access_token') as string;
 };
 

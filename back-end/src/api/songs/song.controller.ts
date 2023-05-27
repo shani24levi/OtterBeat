@@ -27,7 +27,7 @@ const getArtistSongs = asyncHandler(async (req: Request, res: Response, next: Ne
   const artist_name = req.params.artist_name.toLowerCase();
   client.query(`select * from songs where title LIKE '%${req.params.artist_name}%'`, (err, resSQL) => {
     if (!resSQL || err) return next(new ErrorResponse(err.message, StatusCode.Error.NotFound));
-    if (resSQL) return successResponse(req, res, { songs: resSQL.rows }, StatusCode.Success.Created);
+    if (resSQL) return successResponse(req, res, resSQL.rows, StatusCode.Success.Created);
   });
 });
 

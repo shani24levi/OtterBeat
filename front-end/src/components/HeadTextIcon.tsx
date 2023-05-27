@@ -8,7 +8,7 @@ const HeadTextIcon: React.FC<{ icon?: string; text: string }> = ({
   text,
 }) => {
   return (
-    <Grid container spacing={2} alignItems={'center'} mb={6}>
+    <Grid container spacing={2} alignItems={'center'} mb={3}>
       <Grid item>
         <IconCircleBox radius="50%">
           <HeadsetIcon />

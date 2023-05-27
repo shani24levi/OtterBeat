@@ -1,48 +1,57 @@
 import { SongState, Response } from './../../../types/models/songsModel';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { getSongs, otterbeatApi, songsUrl } from '../../../servises';
+import { searchSongs, fetchSongs } from './songsAsyncThunk';
 
 export interface Songs {
   songs: SongState[];
+  searched: SongState[];
   loading: boolean;
-  status?: 'idle' | 'loading' | 'pending' | 'succeeded' | 'failed';
   error: string | null;
 }
 
-// create the thunk
-export const fetchSongs = createAsyncThunk(songsUrl, async (data, thunkApi) => {
-  try {
-    const response = await getSongs(); //otterbeatApi.get<SongState[]>(songsUrl);
-    console.log('response', response);
-
-    return response;
-  } catch (error: any) {
-    const message = error.message;
-    return thunkApi.rejectWithValue(message);
-  }
-});
-
-const initialState: Songs = { songs: [], loading: false, error: null } as Songs;
+const initialState: Songs = {
+  songs: [],
+  searched: [],
+  loading: false,
+  error: null,
+} as Songs;
 
 export const songsSlice = createSlice({
   name: 'songs',
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      //state.data = action.payload;
+    },
+  },
   extraReducers: (builder) => {
+    // builder
+    //   .addCase(fetchSongs.pending, (state, action) => {
+    //     state.loading = true;
+    //   })
+    //   .addCase(
+    //     fetchSongs.fulfilled,
+    //     (state, action: PayloadAction<Response>) => {
+    //       state.loading = false;
+    //       state.songs = action.payload.data ?? [];
+    //       state.searched = action.payload.data ?? [];
+    //     }
+    //   );
+
+    //searchSongs
+
     builder
-      .addCase(fetchSongs.pending, (state, action) => {
-        state.status = 'loading';
+      .addCase(searchSongs.pending, (state) => {
         state.loading = true;
       })
-      .addCase(
-        fetchSongs.fulfilled,
-        (state, action: PayloadAction<Response>) => {
-          state.status = 'loading';
-          state.loading = false;
-          state.songs = action.payload.data ?? [];
-        }
-      );
+      .addCase(searchSongs.fulfilled, (state, action) => {
+        console.log('action', action);
+
+        state.loading = false;
+        // state.songs = action.payload.data ?? [];
+        state.searched = action.payload.data ?? [];
+      });
   },
 });
 

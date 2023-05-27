@@ -1,48 +1,26 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/useTypedSelector';
 import { WaveHeaderWraper } from '../shared/theme/header.wraper';
-import { SongState } from './../types/models/songsModel';
-import { Container, Grid } from '@mui/material';
-
-import Card from '../components/card/Card';
-import { Radius } from '../components/card/card.types';
-import { songIcons } from '../assets';
+import { Container } from '@mui/material';
 import HeadTextIcon from '../components/HeadTextIcon';
-import { fetchSongs } from '../store/features/songs/songsSlice';
+// import { fetchSongs } from '../store/features/songs/songsSlice';
+import SearchInput from '../components/SearchInput';
+import useDebounce from '../hooks/useDebounce';
+import SongsList from '../components/songs/SongsList';
 
 const Albums = () => {
-  const dispatch = useAppDispatch();
-  // dispatch(fetchSongs);
-
-  React.useEffect(() => {
-    dispatch(fetchSongs());
-  }, [dispatch]);
-
-  const { error, loading, songs } = useAppSelector((state) => state.songs);
-
-  console.log('data-songs', songs);
+  const [searchValue, setSearchValue] = React.useState('');
+  const debouncedSearchValue = useDebounce(searchValue, 1000);
 
   return (
     <WaveHeaderWraper>
       <Container maxWidth="xl">
-        {error && <>failed to load</>}
-        {loading && <>isLoading...</>}
-
         <HeadTextIcon text="Albums" />
 
-        <Grid container spacing={2}>
-          {songs &&
-            songs.map((song: SongState, i: number) => {
-              return (
-                <Card
-                  key={song.songid}
-                  props={song}
-                  imgBg={songIcons[i]}
-                  radius={Radius.Circle}
-                />
-              );
-            })}
-        </Grid>
+        <SearchInput
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
+        <SongsList searchTerm={debouncedSearchValue} />
       </Container>
     </WaveHeaderWraper>
   );
