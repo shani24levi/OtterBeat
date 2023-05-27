@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <a href="#">
-    <img src="front-end/src/assets/logo.svg" alt="Logo" width="260" height="100">
+    <img src="front-end/src/assets/logo.svg" alt="Logo" width="100" height="100">
   </a>
 
   <strong>
@@ -43,6 +43,12 @@ A web-based platform, built as a mobile and desktop website
 -   [x] Docker
 
 
+
+### Web System
+
+![Screenshot 2023-05-27 173144](https://github.com/shani24levi/OtterBeat/assets/48565585/ec526d42-6804-4442-beef-32368a777dae)
+![Screenshot 2023-05-27 173216](https://github.com/shani24levi/OtterBeat/assets/48565585/8ca07ada-2252-4c87-a382-105b2d60613b)
+![Screenshot 2023-05-27 173322](https://github.com/shani24levi/OtterBeat/assets/48565585/16e404e6-b865-4cf5-b40f-afb84bb8d4cb)
 
 
 
