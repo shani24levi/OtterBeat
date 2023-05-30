@@ -20,11 +20,7 @@ const initialState: Songs = {
 export const songsSlice = createSlice({
   name: 'songs',
   initialState,
-  reducers: {
-    setUser: (state, action) => {
-      //state.data = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     // builder
     //   .addCase(fetchSongs.pending, (state, action) => {

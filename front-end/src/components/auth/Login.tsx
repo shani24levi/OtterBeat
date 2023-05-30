@@ -10,7 +10,7 @@ interface FormContentProps {
 }
 
 const Login = ({ onChange }: FormContentProps): React.ReactElement => {
-  const { user, error } = useAppSelector((state) => state.user);
+  const { user, error } = useAppSelector((state) => state.reducer.user);
   const navigate = useNavigate();
 
   React.useMemo(() => {

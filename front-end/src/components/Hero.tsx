@@ -42,7 +42,7 @@ const GradientText = styled(Typography)<TypographyProps>(({ theme }) => ({
 }));
 
 const Hero: React.FC = () => {
-  const { userid, email } = useAppSelector((state) => state.user.user);
+  const { userid, email } = useAppSelector((state) => state.reducer.user.user);
   return (
     <StyledHeroContinuer container>
       <Container maxWidth="xl">

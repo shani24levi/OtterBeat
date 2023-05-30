@@ -21,7 +21,7 @@ const withDialog = <P extends object>(
   return function WithDialog(props: P & WithDialogProps) {
     const [open, setOpen] = useState(false);
     const [formValues, setFormValues] = useState({});
-    const { loading } = useAppSelector((state) => state.user);
+    const { loading } = useAppSelector((state) => state.reducer.user);
 
     const handleOpen = () => {
       setOpen(true);

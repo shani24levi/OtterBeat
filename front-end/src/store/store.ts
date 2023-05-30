@@ -1,13 +1,40 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {
+  combineReducers,
+  configureStore,
+  createSerializableStateInvariantMiddleware,
+  isPlain,
+} from '@reduxjs/toolkit';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+
 import userReducer from './features/user/userSlice';
 import songsReducer from './features/songs/songsSlice';
 
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const rootReducer = combineReducers({
+  user: userReducer,
+  songs: songsReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const isSerializable = (value: any) => isPlain(false);
+const serializableMiddleware = createSerializableStateInvariantMiddleware({
+  isSerializable,
+});
+
 export const store = configureStore({
   reducer: {
-    user: userReducer,
-    songs: songsReducer,
+    reducer: persistedReducer,
   },
+  // middleware: [serializableMiddleware],
 });
+
+export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

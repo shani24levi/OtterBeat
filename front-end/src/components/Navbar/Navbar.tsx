@@ -29,7 +29,9 @@ const Navbar: React.FC<Props> = ({ mode, onChange }): JSX.Element => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [toggle, setToggle] = useState<boolean>(false);
-  const user = useSelector((state: RootState) => state.user.user?.userid);
+  const user = useSelector(
+    (state: RootState) => state.reducer.user.user?.userid
+  );
 
   const getNavLinks = (): JSX.Element => {
     return user ? <LoggedLinks /> : <PublicLinks />;

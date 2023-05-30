@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <a href="#">
-    <img src="front-end/src/assets/logo.svg" alt="Logo" width="260" height="100">
+    <img src="front-end/src/assets/logo.svg" alt="Logo" width="100" height="100">
   </a>
 
   <strong>

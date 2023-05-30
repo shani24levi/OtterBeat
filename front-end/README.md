@@ -30,3 +30,6 @@ https://www.youtube.com/watch?v=nt8NTuUbuG4
 
 to do
 https://www.youtube.com/watch?v=LMagNcngvcU&t=2516s
+
+useful link for reaux-toolkit:
+https://blog.logrocket.com/persist-state-redux-persist-redux-toolkit-react/

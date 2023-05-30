@@ -13,11 +13,11 @@ import {
 const SongsList: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
   const dispatch = useAppDispatch();
   const { error, loading, songs, searched } = useAppSelector(
-    (state) => state.songs
+    (state) => state.reducer.songs
   );
 
   React.useEffect(() => {
-    songs.length == 0 && searchTerm == '' && dispatch(searchSongs(''));
+    (!songs || songs?.length == 0) && dispatch(searchSongs(' '));
     searchTerm !== '' && dispatch(searchSongs(searchTerm));
   }, [songs, searchTerm, dispatch]);
 
@@ -27,7 +27,7 @@ const SongsList: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
       {error && <p>{error ?? ''}</p>}
 
       <Grid container spacing={2}>
-        {searched.length != 0 ? (
+        {searched?.length !== 0 ? (
           searched.map((song: SongState, i: number) => {
             return (
               <Card
