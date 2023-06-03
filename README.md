@@ -42,6 +42,37 @@ A web-based platform, built as a mobile and desktop website
 -   [x] Unit tests
 -   [x] Docker
 
+### Run by 
+
+# Clone the repository
+```bash
+  git clone https://github.com/shani24levi/OtterBeat.git
+```
+# Navigate to the code repository & install packages needed to run backend 
+```bash
+  cd back-end
+```
+```bash
+  npm install
+```
+# In a new tab open redis connection
+```bash
+  redis-server
+```
+```bash
+  npm run dev
+```
+
+# Navigate to the code repository & install packages needed to run backend 
+```bash
+  cd front-end
+```
+```bash
+  npm install
+```
+```bash
+  npm run dev
+```
 
 
 ### Web System
