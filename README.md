@@ -23,7 +23,7 @@
 ## 🛠 Description - About the App
 > “*When you're happy you enjoy the beat, but when you're sad you understand the words . . . *”.
 
-A web-based platform, built as a mobile and desktop website
+A web-based platform, built as a mobile and desktop website 
 
 
 ### Built With
@@ -63,7 +63,7 @@ A web-based platform, built as a mobile and desktop website
   npm run dev
 ```
 
-# Navigate to the code repository & install packages needed to run backend 
+# Navigate to the code repository & install packages needed to run backend:
 ```bash
   cd front-end
 ```
